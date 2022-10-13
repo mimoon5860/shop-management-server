@@ -1,4 +1,0 @@
-type Product{
-    id:String
-    name:String
-}
