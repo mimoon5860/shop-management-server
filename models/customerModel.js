@@ -13,12 +13,13 @@ const customerSchema = mongoose.Schema({
         type: String,
     },
     address: {
-        address: { type: String },
-        city: { type: String },
-        required: [true, "Please provide customer address"]
+        type: String
+    },
+    email: {
+        type: String
     }
 }, {
-    timestamp: true
+    timestamps: true
 })
 
 const CustomerModel = mongoose.model('Customer', customerSchema);

@@ -13,12 +13,11 @@ const productSchema = mongoose.Schema({
         type: Number,
         required: [true, "Please provide product purchase price"]
     },
-    sellPrice: {
-        type: Number,
-        required: [true, "Please provide product sell price"]
+    photo: {
+        type: String
     }
 }, {
-    timestamp: true
+    timestamps: true
 })
 
 const ProductModel = mongoose.model('Product', productSchema);

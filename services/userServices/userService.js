@@ -10,7 +10,9 @@ module.exports.createUser = async (registerInput) => {
             id: user.id,
             name: registerInput.name,
             email: registerInput.email,
-            phone: registerInput.phone
+            phone: registerInput.phone,
+            createdAt: user.createdAt,
+            updatedAt: user.updatedAt
         }
     }
 }

@@ -13,12 +13,13 @@ const sellerSchema = mongoose.Schema({
         type: String,
     },
     address: {
-        address: { type: String },
-        city: { type: String },
-        required: [true, "Please provide seller address"]
+        type: String
+    },
+    email: {
+        type: String
     }
 }, {
-    timestamp: true
+    timestamps: true
 })
 
 const SellerModel = mongoose.model('Seller', sellerSchema);
