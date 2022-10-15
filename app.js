@@ -28,7 +28,6 @@ const startServer = async () => {
     });
 
 
-
     app.use(cors());
     app.use(express.json());
 

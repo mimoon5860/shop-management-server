@@ -1,4 +1,5 @@
 const customerResolvers = require("./customerResolvers/customerResolvers");
+const dashboardResolvers = require("./dashboardResolvers/dashboardResolvers");
 const inventoryResolvers = require("./inventoryResolvers/inventoryResolvers");
 const productResolvers = require("./productResolvers/productResolvers");
 const productSellResolvers = require("./productSellResolvers/productSellResolvers");
@@ -12,7 +13,8 @@ const resolvers = {
         ...customerResolvers.Query,
         ...sellerResolvers.Query,
         ...inventoryResolvers.Query,
-        ...productSellResolvers.Query
+        ...productSellResolvers.Query,
+        ...dashboardResolvers.Query
     },
 
     Mutation: {
@@ -21,7 +23,8 @@ const resolvers = {
         ...customerResolvers.Mutation,
         ...sellerResolvers.Mutation,
         ...inventoryResolvers.Mutation,
-        ...productSellResolvers.Mutation
+        ...productSellResolvers.Mutation,
+        ...dashboardResolvers.Mutation
     }
 }
 

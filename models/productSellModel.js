@@ -33,6 +33,7 @@ const productSellSchema = new mongoose.Schema({
             required: [true, "Please provide product purchase price"]
         },
     }],
+    date: { type: Date, default: Date.now },
     invoice: {
         type: String,
         required: [true, "Please provide invoice"]

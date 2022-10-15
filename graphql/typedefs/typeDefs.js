@@ -4,6 +4,7 @@ const typeDefs = gql`
 
     #Timestamp type 
     scalar GraphQLDateTime
+    scalar Date
 
     #Common types
     input DeleteInput{
@@ -50,6 +51,7 @@ const typeDefs = gql`
         id:ID!
         name:String!
         details:String!
+        sellCount:Int
         status:String!
         createdAt:GraphQLDateTime!
         updatedAt:GraphQLDateTime!
@@ -122,6 +124,7 @@ const typeDefs = gql`
         id:ID!
         product:Product!
         purchasePrice:Int!
+        buyStock:Int!
         stock:Int!
         createdAt:GraphQLDateTime!
         updatedAt:GraphQLDateTime!
@@ -145,6 +148,13 @@ const typeDefs = gql`
         name:String!
         address:String!
         phone:String!
+    }
+    input SellProductByDate{
+        from:Date!
+        to:Date!
+    }
+    input SellProductByProductOrCustomer{
+        name:String!
     }
     type SellProductSingleProduct{
         id:ID!
@@ -172,6 +182,18 @@ const typeDefs = gql`
         customer:SellProductCustomerInput!
     }
 
+    #dashboard data
+    type Total{
+        total:Int
+        amount:Int
+    }
+    type DashboardSummery{
+        totalSell:Total
+        totalBuy:Total
+        profit:Int
+        bestSellingProduct:Product
+    }
+
     #All Queries
     type Query{
         #user queries
@@ -191,6 +213,12 @@ const typeDefs = gql`
 
         #product sell queries
         getAllSellProduct:[SellProduct]
+        getAllSellProductByDate(sellProductByDate:SellProductByDate):[SellProduct]
+        getAllSellProductByProductName(sellProductByProductName:SellProductByProductOrCustomer):[SellProduct]
+        getAllSellProductByCustomerName(sellProductByCustomerName:SellProductByProductOrCustomer):[SellProduct]
+
+        #dashboard summery
+        getDashboardSummery:DeleteResult
     }
 
     #All Mutations

@@ -39,9 +39,31 @@ exports.sellProduct = async (data) => {
 // get all product sell reports
 exports.getAllSellProducts = async () => {
     const allSellProduct = await ProductSellModel.find();
-    console.log(allSellProduct)
     return {
         success: true,
         data: allSellProduct
     }
 };
+
+// get all product sell reports by date
+exports.getAllSellProductsByDate = async ({ from, to }) => {
+    const prevToDate = new Date(to)
+    from = new Date(from);
+    to = new Date(prevToDate.setDate(prevToDate.getDate() + 1));
+    const allSellProduct = await ProductSellModel.find({
+        createdAt: {
+            $gte: from,
+            $lte: to
+        }
+    })
+    return {
+        success: true,
+        data: allSellProduct
+    }
+}
+
+// get all product sell reports by customer name
+exports.getAllSellProductByCustomerName = async (data) => { }
+
+// get all product sell reports by product name
+exports.getAllSellProductByProductName = async (data) => { }

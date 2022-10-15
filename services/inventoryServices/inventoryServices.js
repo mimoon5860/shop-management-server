@@ -9,8 +9,7 @@ exports.addProductToInventory = async (data) => {
         const updateInventory = await InventoryModel.findOneAndUpdate({ product }, { stock: checkInventory.stock + stock });
         newInventoryId = updateInventory.id;
     } else {
-        console.log({ data })
-        const inventory = await InventoryModel.create(data);
+        const inventory = await InventoryModel.create({ ...data, buyStock: stock });
         await inventory.save();
         newInventoryId = inventory.id;
     }
