@@ -1,13 +1,12 @@
 const { UserInputError } = require("apollo-server-express");
-const { addProductToInventory, getAllInventoryProduct } = require("../../../services/inventoryServices/inventoryServices");
+const { sellProduct, getAllSellProducts } = require("../../../services/productSellServices/productSellServices");
 
-const inventoryResolvers = {
+const productSellResolvers = {
     Query: {
-        // get all inventory products
-        getAllInventoryProducts: async () => {
+        // get all sell products
+        getAllSellProduct: async () => {
             try {
-                const result = await getAllInventoryProduct();
-                console.log(result.product);
+                const result = await getAllSellProducts();
                 if (result.success) {
                     return result.data;
                 } else {
@@ -19,10 +18,10 @@ const inventoryResolvers = {
         }
     },
     Mutation: {
-        // add product to inventory
-        addProductToInventory: async (_parent, { addProductToInventoryInput }) => {
+        // sell product
+        sellProduct: async (_parent, { sellProductInput }) => {
             try {
-                const result = await addProductToInventory(addProductToInventoryInput);
+                const result = await sellProduct(sellProductInput);
                 if (result.success) {
                     return result;
                 } else {
@@ -32,8 +31,7 @@ const inventoryResolvers = {
                 throw new UserInputError(err.message);
             }
         }
-
     }
 }
 
-module.exports = inventoryResolvers;
+module.exports = productSellResolvers;

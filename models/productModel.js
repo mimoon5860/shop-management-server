@@ -9,12 +9,9 @@ const productSchema = new mongoose.Schema({
         type: String,
         required: [true, "Please provide product details"]
     },
-    purchasePrice: {
-        type: Number,
-        required: [true, "Please provide product purchase price"]
-    },
     sellCount: {
-        type: Number
+        type: Number,
+        default: 0
     },
     status: {
         type: String,
@@ -25,5 +22,5 @@ const productSchema = new mongoose.Schema({
     timestamps: true,
 })
 
-const ProductModel = mongoose.model('Product', productSchema, 'products');
+const ProductModel = mongoose.model('Product', productSchema, 'product');
 module.exports = ProductModel;

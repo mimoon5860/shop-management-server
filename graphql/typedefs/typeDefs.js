@@ -13,6 +13,11 @@ const typeDefs = gql`
         success:Boolean!
         message:String
     }
+    type CreateResult{
+        success:Boolean!
+        message:String!
+        id:ID
+    }
 
     #User types
     type User{
@@ -32,7 +37,7 @@ const typeDefs = gql`
     input RegisterUserInput{
         name:String!
         email:String!
-        photo:String
+        phone:String!
         password:String!
     }
     input LoginUserInput{
@@ -44,7 +49,6 @@ const typeDefs = gql`
     type Product{
         id:ID!
         name:String!
-        purchasePrice:Int!
         details:String!
         status:String!
         createdAt:GraphQLDateTime!
@@ -52,13 +56,11 @@ const typeDefs = gql`
     }
     input CreateProductInput{
         name:String!
-        purchasePrice:Int!
         details:String!
     }
     input UpdateAProductInput{
         id:ID!
         name:String
-        purchasePrice:Int
         details:String
         status:String
     }
@@ -118,14 +120,8 @@ const typeDefs = gql`
     # Inventory all types 
     type Inventory{
         id:ID!
-        product:ID!
-        stock:Int!
-        createdAt:GraphQLDateTime!
-        updatedAt:GraphQLDateTime!
-    }
-    type InventoryWithProduct{
-        id:ID!
         product:Product!
+        purchasePrice:Int!
         stock:Int!
         createdAt:GraphQLDateTime!
         updatedAt:GraphQLDateTime!
@@ -133,28 +129,48 @@ const typeDefs = gql`
 
     input AddProductToInventoryInput{
         product:ID!
+        purchasePrice:Int!
         stock:Int!
     }
 
     #Product sell types
+    input SellProductSingleProductInput{
+        id:ID!
+        name:String!
+        quantity:Int!
+        sellPrice:Int!
+    }
+    input SellProductCustomerInput{
+        id:ID!
+        name:String!
+        address:String!
+        phone:String!
+    }
+    type SellProductSingleProduct{
+        id:ID!
+        name:String!
+        quantity:Int!
+        sellPrice:Int!
+    }
+    type SellProductCustomer{
+        id:ID!
+        name:String!
+        address:String!
+        phone:String!
+    }
+    
     type SellProduct{
         id:ID!
-        product:Product!
-        quantity:Int!
-        customer:Customer!
-        sellPrice:Int!
+        product:[SellProductSingleProduct]
+        customer:SellProductCustomer!
         invoice:String!
         createdAt:GraphQLDateTime!
         updatedAt:GraphQLDateTime!
     }
-
-    input SellAProductInput{
-        product:ID!
-        quantity:Int!
-        customer:ID!
-        sellPrice:Int!
+    input SellProductInput{
+        product:[SellProductSingleProductInput]!
+        customer:SellProductCustomerInput!
     }
-
 
     #All Queries
     type Query{
@@ -171,7 +187,7 @@ const typeDefs = gql`
         getAllSeller:[Seller]
 
         #inventory queries
-        getAllInventoryProducts:[InventoryWithProduct]
+        getAllInventoryProducts:[Inventory]
 
         #product sell queries
         getAllSellProduct:[SellProduct]
@@ -199,14 +215,12 @@ const typeDefs = gql`
         deleteASeller(deleteASellerInput:DeleteInput):DeleteResult
 
         # Inventory mutations
-        addProductToInventory(addProductToInventoryInput:AddProductToInventoryInput):Inventory
+        addProductToInventory(addProductToInventoryInput:AddProductToInventoryInput):CreateResult
 
         #Product sell mutations
-        sellAProduct(sellAProductInput:SellAProductInput):SellProduct
+        sellProduct(sellProductInput:SellProductInput):CreateResult
 
     }
-
-
 `;
 
 module.exports = typeDefs;

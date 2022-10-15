@@ -19,7 +19,7 @@ const sellerResolvers = {
     },
     Mutation: {
         // create a seller
-        createASeller: async (_parent, { createASellerInput }, _context, _info) => {
+        createASeller: async (_parent, { createASellerInput }) => {
             try {
                 const result = await createASeller(createASellerInput);
                 if (result.success) {

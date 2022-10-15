@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 const typeDefs = require('./graphql/typedefs/typeDefs');
 const resolvers = require('./graphql/resolvers/resolvers');
 const { ApolloServer } = require('apollo-server-express');
@@ -15,10 +16,18 @@ const startServer = async () => {
     await apolloServer.start();
     apolloServer.applyMiddleware({ app });
 
+    // send file
+    app.get('/invoice/:filename', (req, res) => {
+        const { filename } = req.params;
+        res.sendFile(path.resolve(`${__dirname}/invoices/${filename}`));
+    })
+
     // default response for server start
     app.use((_req, res) => {
         res.send("Hey bro server is running...");
     });
+
+
 
     app.use(cors());
     app.use(express.json());

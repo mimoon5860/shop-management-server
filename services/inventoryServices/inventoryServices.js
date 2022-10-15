@@ -2,18 +2,28 @@ const InventoryModel = require("../../models/inventoryModel");
 
 // add product to inventory
 exports.addProductToInventory = async (data) => {
-    console.log({ data })
-    const inventory = await InventoryModel.create(data);
-    await inventory.save();
+    const { product, stock } = data;
+    let newInventoryId = '';
+    const checkInventory = await InventoryModel.findOne({ product });
+    if (checkInventory) {
+        const updateInventory = await InventoryModel.findOneAndUpdate({ product }, { stock: checkInventory.stock + stock });
+        newInventoryId = updateInventory.id;
+    } else {
+        console.log({ data })
+        const inventory = await InventoryModel.create(data);
+        await inventory.save();
+        newInventoryId = inventory.id;
+    }
     return {
         success: true,
-        data: inventory
+        id: newInventoryId,
+        message: "Product stock added to inventory successfully!"
     };
 }
 
 // get all inventory products
 exports.getAllInventoryProduct = async () => {
-    const inventoryProducts = await InventoryModel.find().populate('products');
+    const inventoryProducts = await InventoryModel.find().populate('product');
     return {
         success: true,
         data: inventoryProducts
