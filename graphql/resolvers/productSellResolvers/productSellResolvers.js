@@ -1,5 +1,5 @@
 const { UserInputError } = require("apollo-server-express");
-const { sellProduct, getAllSellProducts, getAllSellProductsByDate } = require("../../../services/productSellServices/productSellServices");
+const { sellProduct, getAllSellProducts, getAllSellProductsByDate, getAllSellProductByCustomerName, getAllSellProductByProductName } = require("../../../services/productSellServices/productSellServices");
 
 const productSellResolvers = {
     Query: {
@@ -21,7 +21,6 @@ const productSellResolvers = {
         getAllSellProductByDate: async (_parent, { sellProductByDate }) => {
             try {
                 const result = await getAllSellProductsByDate(sellProductByDate);
-                console.log(result)
                 if (result.success) {
                     return result.data;
                 } else {
@@ -33,10 +32,33 @@ const productSellResolvers = {
         },
 
         // get all sell products by customer name 
-        getAllSellProductByCustomerName: async () => { },
+        getAllSellProductByCustomerName: async (_parent, { sellProductByCustomerName }) => {
+            try {
+                const result = await getAllSellProductByCustomerName(sellProductByCustomerName);
+                if (result.success) {
+                    return result.data;
+                } else {
+                    throw new UserInputError(result.message);
+                }
+            } catch (err) {
+                throw new UserInputError(err.message);
+            }
+
+        },
 
         // get all sell products by product name
-        getAllSellProductByProductName: async () => { }
+        getAllSellProductByProductName: async (_parent, { sellProductByProductName }) => {
+            try {
+                const result = await getAllSellProductByProductName(sellProductByProductName);
+                if (result.success) {
+                    return result.data;
+                } else {
+                    throw new UserInputError(result.message);
+                }
+            } catch (err) {
+                throw new UserInputError(err.message);
+            }
+        }
     },
     Mutation: {
         // sell product

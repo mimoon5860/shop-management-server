@@ -63,7 +63,13 @@ exports.getAllSellProductsByDate = async ({ from, to }) => {
 }
 
 // get all product sell reports by customer name
-exports.getAllSellProductByCustomerName = async (data) => { }
+exports.getAllSellProductByCustomerName = async ({ name }) => {
+    const allSellProducts = await ProductSellModel.find({ "customer.name": { "$regex": name, "$options": "i" } },);
+    return {
+        success: true,
+        data: allSellProducts
+    }
+}
 
 // get all product sell reports by product name
 exports.getAllSellProductByProductName = async (data) => { }

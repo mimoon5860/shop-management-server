@@ -29,8 +29,16 @@ exports.getDashboardSummery = async () => {
     return {
         success: true,
         data: {
-            success: true,
-            message: 'okey'
+            totalSell: {
+                total: totalSellCount,
+                amount: totalSellAmount
+            },
+            totalBuy: {
+                total: totalBuyCount,
+                amount: totalBuyAmount
+            },
+            profit: totalSellAmount - totalBuyAmount,
+            bestSellingProduct
         }
     }
 }

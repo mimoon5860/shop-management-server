@@ -218,7 +218,7 @@ const typeDefs = gql`
         getAllSellProductByCustomerName(sellProductByCustomerName:SellProductByProductOrCustomer):[SellProduct]
 
         #dashboard summery
-        getDashboardSummery:DeleteResult
+        getDashboardSummery:DashboardSummery
     }
 
     #All Mutations
