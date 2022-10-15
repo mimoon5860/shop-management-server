@@ -12,12 +12,24 @@ exports.createProductService = async (data) => {
 
 // update a Product 
 exports.updateAProduct = async (data) => {
+    const { id, body } = data;
+    const updatedProduct = await ProductModel.findOneAndUpdate({ _id: id }, body, { new: true });
 
+    return {
+        success: true,
+        data: updatedProduct
+    }
 }
 
 // delete a Product 
 exports.deleteAProduct = async (data) => {
-
+    const { id } = data;
+    const result = await ProductModel.findByIdAndDelete({ _id: id });
+    console.log(result);
+    return {
+        success: true,
+        message: "Product deleted Successfully"
+    }
 }
 
 // get all Product

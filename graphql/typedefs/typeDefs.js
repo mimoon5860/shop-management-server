@@ -2,14 +2,24 @@ const { gql } = require("apollo-server-express");
 
 const typeDefs = gql`
 
+    #Timestamp type 
     scalar GraphQLDateTime
+
+    #Common types
+    input DeleteInput{
+        id:ID!
+    }
+    type DeleteResult{
+        success:Boolean!
+        message:String
+    }
+
     #User types
     type User{
         id: ID!
         name: String!
         phone: String!
         email:String!
-        photo:String
         createdAt:GraphQLDateTime!
         updatedAt:GraphQLDateTime!
     }
@@ -21,7 +31,6 @@ const typeDefs = gql`
 
     input RegisterUserInput{
         name:String!
-        phone:String!
         email:String!
         photo:String
         password:String!
@@ -37,6 +46,7 @@ const typeDefs = gql`
         name:String!
         purchasePrice:Int!
         details:String!
+        status:String!
         createdAt:GraphQLDateTime!
         updatedAt:GraphQLDateTime!
     }
@@ -45,24 +55,38 @@ const typeDefs = gql`
         purchasePrice:Int!
         details:String!
     }
+    input UpdateAProductInput{
+        id:ID!
+        name:String
+        purchasePrice:Int
+        details:String
+        status:String
+    }
 
     #Customer All types
     type Customer{
         id:ID!
         name:String!
         phone:String!
-        photo:String
         address:String
         email:String
+        status:String!
         createdAt:GraphQLDateTime!
         updatedAt:GraphQLDateTime!
     }
     input CreateACustomerInput{
         name:String!
         phone:String!
-        photo:String
         address:String
         email:String
+    }
+    input UpdateACustomerInput{
+        id:ID!
+        name:String
+        phone:String
+        address:String
+        email:String
+        status:String
     }
 
     #Seller All Types
@@ -70,18 +94,65 @@ const typeDefs = gql`
         id:ID!
         name:String!
         phone:String!
-        photo:String
         address:String
         email:String
+        status:String!
         createdAt:GraphQLDateTime!
         updatedAt:GraphQLDateTime!
     }
     input CreateASellerInput{
         name:String!
         phone:String!
-        photo:String
         address:String
         email:String
+    }
+    input UpdateASellerInput{
+        id:ID!
+        name:String
+        phone:String
+        address:String
+        email:String
+        status:String
+    }
+
+    # Inventory all types 
+    type Inventory{
+        id:ID!
+        product:ID!
+        stock:Int!
+        createdAt:GraphQLDateTime!
+        updatedAt:GraphQLDateTime!
+    }
+    type InventoryWithProduct{
+        id:ID!
+        product:Product!
+        stock:Int!
+        createdAt:GraphQLDateTime!
+        updatedAt:GraphQLDateTime!
+    }
+
+    input AddProductToInventoryInput{
+        product:ID!
+        stock:Int!
+    }
+
+    #Product sell types
+    type SellProduct{
+        id:ID!
+        product:Product!
+        quantity:Int!
+        customer:Customer!
+        sellPrice:Int!
+        invoice:String!
+        createdAt:GraphQLDateTime!
+        updatedAt:GraphQLDateTime!
+    }
+
+    input SellAProductInput{
+        product:ID!
+        quantity:Int!
+        customer:ID!
+        sellPrice:Int!
     }
 
 
@@ -93,11 +164,17 @@ const typeDefs = gql`
         #product queries
         getAllProduct:[Product]
 
-        # customer queries
+        #customer queries
         getAllCustomer:[Customer]
 
-        # seller queries
+        #seller queries
         getAllSeller:[Seller]
+
+        #inventory queries
+        getAllInventoryProducts:[InventoryWithProduct]
+
+        #product sell queries
+        getAllSellProduct:[SellProduct]
     }
 
     #All Mutations
@@ -108,14 +185,24 @@ const typeDefs = gql`
 
         #Product mutations
         createAProduct(createProductInput:CreateProductInput):Product
+        updateAProduct(updateAProductInput:UpdateAProductInput):Product
+        deleteAProduct(deleteAProductInput:DeleteInput):DeleteResult
 
         #Customer mutations
         createACustomer(createACustomerInput:CreateACustomerInput):Customer
+        updateACustomer(updateACustomerInput:UpdateACustomerInput):Customer
+        deleteACustomer(deleteACustomerInput:DeleteInput):DeleteResult
 
         #Seller mutations
         createASeller(createASellerInput:CreateASellerInput):Seller
+        updateASeller(updateASellerInput:UpdateASellerInput):Seller
+        deleteASeller(deleteASellerInput:DeleteInput):DeleteResult
+
+        # Inventory mutations
+        addProductToInventory(addProductToInventoryInput:AddProductToInventoryInput):Inventory
 
         #Product sell mutations
+        sellAProduct(sellAProductInput:SellAProductInput):SellProduct
 
     }
 

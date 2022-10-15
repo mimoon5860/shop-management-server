@@ -9,9 +9,6 @@ const usersSchema = mongoose.Schema({
         type: String,
         required: [true, "Please provide user phone"]
     },
-    photo: {
-        type: String,
-    },
     email: {
         type: String,
         required: [true, "Please provide user email"]
@@ -24,5 +21,5 @@ const usersSchema = mongoose.Schema({
     timestamps: true
 })
 
-const UserModel = mongoose.model('User', usersSchema);
+const UserModel = mongoose.model('User', usersSchema, 'users');
 module.exports = UserModel;

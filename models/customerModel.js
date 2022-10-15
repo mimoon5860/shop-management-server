@@ -9,18 +9,20 @@ const customerSchema = mongoose.Schema({
         type: String,
         required: [true, "Please provide customer phone"]
     },
-    photo: {
-        type: String,
-    },
     address: {
         type: String
     },
     email: {
         type: String
+    },
+    status: {
+        type: String,
+        enum: ['Active', 'Archive'],
+        default: 'Active'
     }
 }, {
     timestamps: true
 })
 
-const CustomerModel = mongoose.model('Customer', customerSchema);
+const CustomerModel = mongoose.model('Customer', customerSchema, 'customers');
 module.exports = CustomerModel;

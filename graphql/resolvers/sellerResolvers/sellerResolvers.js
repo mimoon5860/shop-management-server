@@ -1,8 +1,9 @@
 const { UserInputError } = require("apollo-server-express");
-const { createASeller, getAllSeller } = require("../../../services/sellerServices/sellerServices");
+const { createASeller, getAllSeller, updateASeller } = require("../../../services/sellerServices/sellerServices");
 
 const sellerResolvers = {
     Query: {
+        // get all seller
         getAllSeller: async () => {
             try {
                 const result = await getAllSeller();
@@ -30,6 +31,34 @@ const sellerResolvers = {
                 throw new UserInputError(err.message);
             }
         },
+
+        // update a seller
+        updateASeller: async (_parent, { updateASellerInput }) => {
+            try {
+                const result = await updateASeller(updateASellerInput);
+                if (result.success) {
+                    return result.data;
+                } else {
+                    throw new UserInputError(result.message);
+                }
+            } catch (err) {
+                throw new UserInputError(err.message);
+            }
+        },
+
+        // delete a seller
+        deleteASeller: async (_parent, { deleteASellerInput }) => {
+            try {
+                const result = await deleteAProduct(deleteASellerInput);
+                if (result.success) {
+                    return result;
+                } else {
+                    throw new UserInputError(result.message);
+                }
+            } catch (err) {
+                throw new UserInputError(err.message);
+            }
+        }
     }
 }
 

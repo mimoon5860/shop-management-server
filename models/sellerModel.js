@@ -9,18 +9,20 @@ const sellerSchema = mongoose.Schema({
         type: String,
         required: [true, "Please provide seller phone"]
     },
-    photo: {
-        type: String,
-    },
     address: {
         type: String
     },
     email: {
         type: String
+    },
+    status: {
+        type: String,
+        enum: ['Active', 'Archive'],
+        default: 'Active'
     }
 }, {
     timestamps: true
 })
 
-const SellerModel = mongoose.model('Seller', sellerSchema);
+const SellerModel = mongoose.model('Seller', sellerSchema, 'sellers');
 module.exports = SellerModel;
