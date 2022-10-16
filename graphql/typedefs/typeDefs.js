@@ -198,9 +198,6 @@ const typeDefs = gql`
 
     #All Queries
     type Query{
-        #user queries
-        getAUser: User
-
         #product queries
         getAllProduct:[Product]
 

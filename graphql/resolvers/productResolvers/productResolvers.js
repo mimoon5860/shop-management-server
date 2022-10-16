@@ -4,7 +4,8 @@ const { createProductService, getAllProduct, updateAProduct, deleteAProduct } = 
 const productResolvers = {
     Query: {
         //get all product
-        getAllProduct: async () => {
+        getAllProduct: async (parent, args, context, info) => {
+            console.log({ parent, args, context, info })
             try {
                 const result = await getAllProduct();
                 if (result.success) {
