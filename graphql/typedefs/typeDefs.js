@@ -125,6 +125,7 @@ const typeDefs = gql`
         product:Product!
         purchasePrice:Int!
         buyStock:Int!
+        seller:Seller!
         stock:Int!
         createdAt:GraphQLDateTime!
         updatedAt:GraphQLDateTime!
@@ -132,6 +133,7 @@ const typeDefs = gql`
 
     input AddProductToInventoryInput{
         product:ID!
+        seller:ID!
         purchasePrice:Int!
         stock:Int!
     }
@@ -246,7 +248,7 @@ const typeDefs = gql`
         addProductToInventory(addProductToInventoryInput:AddProductToInventoryInput):CreateResult
 
         #Product sell mutations
-        sellProduct(sellProductInput:SellProductInput):CreateResult
+        sellProduct(sellProductInput:SellProductInput):SellProduct
 
     }
 `;

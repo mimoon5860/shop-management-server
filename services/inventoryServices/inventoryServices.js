@@ -22,7 +22,7 @@ exports.addProductToInventory = async (data) => {
 
 // get all inventory products
 exports.getAllInventoryProduct = async () => {
-    const inventoryProducts = await InventoryModel.find().populate('product');
+    const inventoryProducts = await InventoryModel.find().populate('product').populate('seller');
     return {
         success: true,
         data: inventoryProducts

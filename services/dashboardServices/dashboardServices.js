@@ -24,8 +24,6 @@ exports.getDashboardSummery = async () => {
         totalBuyAmount += inventItem.buyStock * inventItem.purchasePrice
     })
 
-
-
     return {
         success: true,
         data: {
@@ -38,7 +36,7 @@ exports.getDashboardSummery = async () => {
                 amount: totalBuyAmount
             },
             profit: totalSellAmount - totalBuyAmount,
-            bestSellingProduct
+            bestSellingProduct: bestSellingProduct[0]
         }
     }
 }

@@ -2,6 +2,13 @@ const SellerModel = require("../../models/sellerModel");
 
 // create Seller
 exports.createASeller = async (data) => {
+    const checkSeller = await SellerModel.find({ $or: [{ phone: data.phone }, { email: data.email }] });
+    if (checkSeller.length) {
+        return {
+            success: false,
+            message: "Email or phone already used by a Seller!"
+        }
+    }
     const seller = await SellerModel.create(data);
     await seller.save();
     return {
@@ -12,7 +19,7 @@ exports.createASeller = async (data) => {
 
 // update a Seller 
 exports.updateASeller = async (data) => {
-    const { id, body } = data;
+    const { id, ...body } = data;
     const updatedSeller = await SellerModel.findOneAndUpdate({ _id: id }, body, { new: true });
 
     return {

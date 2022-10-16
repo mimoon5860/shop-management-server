@@ -1,5 +1,5 @@
 const { UserInputError } = require("apollo-server-express");
-const { createASeller, getAllSeller, updateASeller } = require("../../../services/sellerServices/sellerServices");
+const { createASeller, getAllSeller, updateASeller, deleteASeller } = require("../../../services/sellerServices/sellerServices");
 
 const sellerResolvers = {
     Query: {
@@ -49,7 +49,7 @@ const sellerResolvers = {
         // delete a seller
         deleteASeller: async (_parent, { deleteASellerInput }) => {
             try {
-                const result = await deleteAProduct(deleteASellerInput);
+                const result = await deleteASeller(deleteASellerInput);
                 if (result.success) {
                     return result;
                 } else {

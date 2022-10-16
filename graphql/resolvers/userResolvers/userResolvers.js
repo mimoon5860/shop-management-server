@@ -24,6 +24,7 @@ const userResolvers = {
         loginUser: async (_parent, { loginInput }, _context, _info) => {
             try {
                 const result = await loginUser(loginInput);
+                console.log(result)
                 if (result.success) {
                     return result.data;
                 } else {

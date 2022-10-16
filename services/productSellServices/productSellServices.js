@@ -28,10 +28,17 @@ exports.sellProduct = async (data) => {
     }
 
     await createInvoice(data, invoiceName, sellProductData.id);
+
     return {
         success: true,
-        id: sellProductData.id,
-        message: "Sell product successfully"
+        data: {
+            id: sellProductData.id,
+            product,
+            customer,
+            invoice: `${invoiceName}.pdf`,
+            createdAt: sellProductData.createdAt,
+            updatedAt: sellProductData.updatedAt
+        },
     }
 
 };

@@ -2,7 +2,14 @@ const CustomerModel = require("../../models/customerModel");
 
 // create customer
 exports.createACustomer = async (data) => {
-    console.log(data)
+
+    const checkCustomer = await CustomerModel.find({ $or: [{ phone: data.phone }, { email: data.email }] });
+    if (checkCustomer.length) {
+        return {
+            success: false,
+            message: "Email or phone already used by a customer!"
+        }
+    }
     const customer = await CustomerModel.create(data);
     await customer.save();
     return {
@@ -13,7 +20,7 @@ exports.createACustomer = async (data) => {
 
 // update a customer 
 exports.updateACustomer = async (data) => {
-    const { id, body } = data;
+    const { id, ...body } = data;
     const updatedCustomer = await CustomerModel.findOneAndUpdate({ _id: id }, body, { new: true });
 
     return {

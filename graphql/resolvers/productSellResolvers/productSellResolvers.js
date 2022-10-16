@@ -61,12 +61,12 @@ const productSellResolvers = {
         }
     },
     Mutation: {
-        // sell product
+        // sell a product
         sellProduct: async (_parent, { sellProductInput }) => {
             try {
                 const result = await sellProduct(sellProductInput);
                 if (result.success) {
-                    return result;
+                    return result.data;
                 } else {
                     throw new UserInputError(result.message);
                 }

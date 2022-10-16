@@ -12,8 +12,9 @@ exports.createProductService = async (data) => {
 
 // update a Product 
 exports.updateAProduct = async (data) => {
-    const { id, body } = data;
+    const { id, ...body } = data;
     const updatedProduct = await ProductModel.findOneAndUpdate({ _id: id }, body, { new: true });
+    // console.log(updatedProduct)
 
     return {
         success: true,

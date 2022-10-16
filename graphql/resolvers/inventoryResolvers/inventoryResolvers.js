@@ -7,7 +7,6 @@ const inventoryResolvers = {
         getAllInventoryProducts: async () => {
             try {
                 const result = await getAllInventoryProduct();
-                console.log(result.product);
                 if (result.success) {
                     return result.data;
                 } else {
