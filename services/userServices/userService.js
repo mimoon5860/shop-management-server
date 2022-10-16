@@ -1,5 +1,9 @@
 const UserModel = require("../../models/userModel");
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
+
+
 
 // Register an user 
 module.exports.createUser = async (registerInput) => {
@@ -16,16 +20,27 @@ module.exports.createUser = async (registerInput) => {
     registerInput.password = await bcrypt.hash(registerInput.password, salt);
     const user = new UserModel(registerInput);
     await user.save();
+    const token = jwt.sign({
+        id: user.id,
+        name: registerInput.name,
+        email: registerInput.email,
+        phone: registerInput.phone,
+        createdAt: user.createdAt,
+        updatedAt: user.updatedAt
+    }, process.env.JWT_SECRET);
 
     return {
         success: true,
         data: {
-            id: user.id,
-            name: registerInput.name,
-            email: registerInput.email,
-            phone: registerInput.phone,
-            createdAt: user.createdAt,
-            updatedAt: user.updatedAt
+            token,
+            user: {
+                id: user.id,
+                name: registerInput.name,
+                email: registerInput.email,
+                phone: registerInput.phone,
+                createdAt: user.createdAt,
+                updatedAt: user.updatedAt
+            }
         }
     }
 }
@@ -47,15 +62,25 @@ module.exports.loginUser = async ({ email, password }) => {
             message: "Invalid password"
         }
     }
+    const token = jwt.sign({
+        id: user._id,
+        name: user.name,
+        phone: user.phone,
+        email: user.email,
+        createdAt: user.createdAt,
+        updatedAt: user.updatedAt
+    }, process.env.JWT_SECRET);
 
     return {
         success: true, data: {
-            id: user._id,
-            name: user.name,
-            phone: user.phone,
-            email: user.email,
-            createdAt: user.createdAt,
-            updatedAt: user.updatedAt
+            token, user: {
+                id: user._id,
+                name: user.name,
+                phone: user.phone,
+                email: user.email,
+                createdAt: user.createdAt,
+                updatedAt: user.updatedAt
+            }
         }
     };
 }

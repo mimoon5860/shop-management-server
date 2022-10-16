@@ -46,6 +46,11 @@ const typeDefs = gql`
         password:String!
     }
 
+    type AuthResponse{
+        token:String!
+        user:User!
+    }
+
     #All Product types
     type Product{
         id:ID!
@@ -223,8 +228,8 @@ const typeDefs = gql`
     #All Mutations
     type Mutation{
         #User mutations
-        registerUser(registerInput: RegisterUserInput): User
-        loginUser(loginInput:LoginInput): User
+        registerUser(registerInput: RegisterUserInput): AuthResponse
+        loginUser(loginInput:LoginInput): AuthResponse
 
         #Product mutations
         createAProduct(createProductInput:CreateProductInput):Product

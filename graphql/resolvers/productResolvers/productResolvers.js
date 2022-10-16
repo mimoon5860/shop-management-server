@@ -1,12 +1,16 @@
 const { UserInputError } = require("apollo-server-express");
 const { createProductService, getAllProduct, updateAProduct, deleteAProduct } = require("../../../services/productServices/productServices");
+const checkAuth = require("../../../utils/authVerify");
 
 const productResolvers = {
     Query: {
         //get all product
-        getAllProduct: async (parent, args, context, info) => {
-            console.log({ parent, args, context, info })
+        getAllProduct: async (_parent, _args, context, _info) => {
             try {
+                /* const check = await checkAuth(context.headers.authorization);
+                if (check) {
+                    throw new UserInputError(check)
+                } */
                 const result = await getAllProduct();
                 if (result.success) {
                     return result.data;
